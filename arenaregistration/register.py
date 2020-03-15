@@ -1,5 +1,5 @@
 from arenaregistration.points import get_registering_points, get_fixed_points, clean_check_points
-from arenaregistration.affine import apply_affine, affine_visualise_results, get_affine_matrix
+from arenaregistration.affine import apply_affine, refine_registration, get_affine_matrix
 from arenaregistration.utils import load_image, save_warp_matrix, load_warp_matrix
 
 
@@ -19,7 +19,6 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
             fixed_points = get_fixed_points(reference)
         else:
             fixed_points = clean_check_points(points=fixed_points, verbose=False)
-
     else:
         # Load warp matrix from file if necessary
         if isinstance(warp_mtx, str):
@@ -32,7 +31,9 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
         # Check warp matrix shape
         if not warp_mtx.shape == (2, 3):
             raise ValueError("Thw warp matrix has a weird shape"+
-                    f"Should be (2, 3) but it is {warp_mtx.shape}.")           
+                    f"Should be (2, 3) but it is {warp_mtx.shape}.")       
+
+        print("A warp matrix was passed, skipping points extraction.")
 
     # --------------------------------- Register --------------------------------- #
     happy = False
@@ -46,7 +47,7 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
         registered = apply_affine(reference, registering, warp_mtx)
 
         # Visualise results
-        happy = affine_visualise_results(reference, registered)
+        happy, warp_mtx = refine_registration(reference, registering, registered, warp_mtx)
 
         # Check if we need to try again
         if happy == 'stop':

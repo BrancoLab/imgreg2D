@@ -38,7 +38,7 @@ def get_fixed_points(reference):
         reference = load_image(reference)
 
     with napari.gui_qt():
-        reference_viewer = napari.view_image(reference, name='reference')
+        reference_viewer = napari.view_image(reference, title='Get Fixed Points', name='reference')
         points_layer = reference_viewer.add_points(size=POINTS_SIZE, edge_color='k',
                                     edge_width=EDGE_WIDTH, face_color='red', name='fixed_points')
         points_layer.mode = 'add'
@@ -68,7 +68,7 @@ def get_registering_points(reference, registering, fixed_points):
 
     with napari.gui_qt():
         # add the reference image
-        reference_viewer = napari.view_image(reference, name='reference')
+        reference_viewer = napari.view_image(reference, name='reference', title='Get Registering Points')
 
         # Fixed points
         reference_viewer.add_points(fixed_points, size=POINTS_SIZE, edge_color='k',
