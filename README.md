@@ -24,9 +24,9 @@ pip install git+https://github.com/BrancoLab/imgreg2D.git --upgrade
 
 # Usage
 Steps 1 and 2 are necessary to compute an affine transform matrix which is used for the image registration. If you alrady have such a matrix (e.g. as a result of a previously run analysis), you can skip these steps. You can then just register the image and refine the affine. To do so pass....
-# Step 1 - fixed points
-# Step 2 - registering points
-# Step 3 - refine the affine
+## Step 1 - fixed points
+## Step 2 - registering points
+## Step 3 - refine the affine
 
 
 
