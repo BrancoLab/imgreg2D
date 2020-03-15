@@ -6,18 +6,18 @@ from arenaregistration.utils import load_image
 
 
 
-def register(reference_img, registering_img, fixed_points=None, warp_mtx=None):
-    def get_points():
+def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=False,
+                save_fld='', save_name='warp_mtx'):
+    if isinstance(reference, str): # images were passed as filepaths
+        # Load reference and registering images from file
+        reference = load_image(reference)
+        registering = load_image(registering)
+   
+    if warp_mtx is None:
         if fixed_points is None:
-            fixed_points = get_fixed_points(reference_img)
+            fixed_points = get_fixed_points(reference)
         else:
             fixed_points = clean_check_points(points=fixed_points, verbose=False)
-
-    if warp_mtx is None:
-        get_points()
-
-    reference = load_image(reference_img)
-    registering = load_image(registering_img)
 
     happy = False
     while not happy: # keep repeating process until happy
@@ -27,11 +27,12 @@ def register(reference_img, registering_img, fixed_points=None, warp_mtx=None):
             warp_mtx = get_affine_matrix(fixed_points, registering_points)
 
         # Get registered image
-        registered = apply_affine(reference, registering)
+        registered = apply_affine(reference, registering, warp_mtx)
 
         # Visualise results
         happy = affine_visualise_results(reference, registered)
 
+        # Check if we need to try again
         if happy == 'stop':
             print("\nStopping")
             break

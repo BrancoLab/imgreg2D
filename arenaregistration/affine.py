@@ -4,14 +4,15 @@ import cv2
 from arenaregistration.utils import load_image
 from arenaregistration.points import invert_xy_order
 
-def get_affine_matrix(fixed_points, registering_points)
+# ----------------------------- Affine transfrom ----------------------------- #
+def get_affine_matrix(fixed_points, registering_points):
     print("\nGetting affine transform.")
     fixed_points = invert_xy_order(fixed_points)
     registering_points = invert_xy_order(registering_points)
-
     warp_mtx = cv2.getAffineTransform(fixed_points, registering_points)
+    return warp_mtx
 
-def apply_affine(reference, registering):
+def apply_affine(reference, registering, warp_mtx):
     print("\nApplying affine transform.")
     rows,cols,ch =  reference.shape
     registered = cv2.warpAffine(registering, warp_mtx, (cols, rows))
@@ -19,9 +20,9 @@ def apply_affine(reference, registering):
 
 
 
+# --------------------------------- Visualise -------------------------------- #
 def affine_visualise_results(reference, registered):
     print(f"\nVisualising results: overlayed images.\n"+
-            "Press 'q' to close the viewers.\n"+
             "Press 'y' if you are happy with the results.\n"+
             "Press 'n' if you are not happy with the results and would like to try again.\n"+
             "Press 's' if you are not happy with the results and would like to stop.")
@@ -31,10 +32,6 @@ def affine_visualise_results(reference, registered):
         img_layer = viewer.add_image(registered, name='Registered', opacity=.5)
 
         viewer.layers[0].metadata['happy'] = False
-
-        @viewer.bind_key('q', overwrite=True)
-        def close_viewers(viewer):
-            viewer.window.close()
 
         @viewer.bind_key('y', overwrite=True)
         def ishappy(viewer):

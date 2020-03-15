@@ -30,11 +30,15 @@ def invert_xy_order(points):
 
 
 # ------------------------------- Fixed Points ------------------------------- #
-def get_fixed_points(reference_img):
+def get_fixed_points(reference):
     print(f"\n\nDefine {N_POINTS} fixed points on reference image.\n"+
             "Press 'q' to close viewer when all the points are defined")
+
+    if isinstance(reference, str):
+        reference = load_image(reference)
+
     with napari.gui_qt():
-        reference_viewer = napari.view_image(load_image(reference_img), name='reference')
+        reference_viewer = napari.view_image(reference, name='reference')
         points_layer = reference_viewer.add_points(size=POINTS_SIZE, edge_color='k',
                                     edge_width=EDGE_WIDTH, face_color='red', name='fixed_points')
         points_layer.mode = 'add'
@@ -96,4 +100,4 @@ def get_registering_points(reference, registering, fixed_points):
         raise ValueError(f"{len(points_layer.data)} were clicked, but there were {len(fixed_points)} on the reference image.\n"+
                             "Please try again.")
     
-    return clean_check_points(points_layer, img_type='Registering')
+    return clean_check_points(points_layer, img_type='Registering')[::-1] # ? need to reverse the order for some reason
