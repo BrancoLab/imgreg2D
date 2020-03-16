@@ -1,11 +1,12 @@
 # Imgreg2D
 Python code to perform 2D image registration and alignment. 
 
-Simple napari based application to register a 2D image to a template. 
-The registration is done by:
-
 
 ![](media/demo.gif)
+
+
+Simple napari based application to register a 2D image to a template. 
+
 
 **The steps**
 - 1 Defining a set of 3 points on the `reference` image (`fixed_points`) [<-- user input]
