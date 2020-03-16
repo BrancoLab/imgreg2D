@@ -19,7 +19,7 @@ import os
 # IMG_CACHE_PATH = os.path.join(BASE_DIR, 'fixed_points_image.png')
 
 # ---------------------------------- AFFINE ---------------------------------- #
-N_POINTS = 3
+N_POINTS = 6
 
 # ------------------------------- VISUALIZATION ------------------------------ #
 POINTS_SIZE = 35

@@ -127,8 +127,8 @@ def get_registering_points(reference, registering, fixed_points):
             if registering_viewer.layers[0].metadata['viewing'] == 'reference':
                 return
 
-            if len(layer.data) == len(fixed_points):
-                close_viewer(registering_viewer)
+            if len(points_layer.data) == len(fixed_points):
+                registering_viewer.close()
 
     if not len(points_layer.data) == len(fixed_points):
         raise ValueError(f"{len(points_layer.data)} were clicked, but there were {len(fixed_points)} on the reference image.\n"+
