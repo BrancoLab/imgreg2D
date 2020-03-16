@@ -5,8 +5,6 @@
 *.vscode
 *.mp4
 *.mp4
-*.tdms
-*.jpg
 *.xml
 *.idea
 *.pyc

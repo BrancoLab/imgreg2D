@@ -2,9 +2,9 @@ import napari
 import cv2
 import numpy as np
 
-from arenaregistration import N_POINTS, POINTS_SIZE, EDGE_WIDTH
-from arenaregistration.utils import load_image
-from arenaregistration.points import invert_xy_order
+from imgreg2D import N_POINTS, POINTS_SIZE, EDGE_WIDTH
+from imgreg2D.utils import load_image
+from imgreg2D.points import invert_xy_order
 
 
 warp_mtx_indices = dict(
@@ -116,22 +116,22 @@ def refine_registration(reference, registering, registered, warp_mtx):
         @viewer.bind_key('a', overwrite=True)
         def a(viewer):
             update(viewer, reference, registering, warp_mtx, 
-                            warp_mtx_indices['x_translate'], 'minus',  .02)
+                            warp_mtx_indices['x_translate'], 'minus',  .2)
 
         @viewer.bind_key('w', overwrite=True)
         def w(viewer):
             update(viewer, reference, registering, warp_mtx, 
-                            warp_mtx_indices['y_translate'], 'minus',  .02)
+                            warp_mtx_indices['y_translate'], 'minus',  .2)
 
         @viewer.bind_key('s', overwrite=True)
         def s(viewer):
             update(viewer, reference, registering, warp_mtx, 
-                            warp_mtx_indices['y_translate'], 'plus',  .02)
+                            warp_mtx_indices['y_translate'], 'plus',  .2)
 
         @viewer.bind_key('d', overwrite=True)
         def d(viewer):
             update(viewer, reference, registering, warp_mtx, 
-                            warp_mtx_indices['x_translate'], 'plus',  .02)
+                            warp_mtx_indices['x_translate'], 'plus',  .2)
 
 
         # axis scales

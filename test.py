@@ -1,5 +1,5 @@
-from arenaregistration.register import register
-from arenaregistration.points import get_fixed_points
+from imgreg2D.register import register
+from imgreg2D.points import get_fixed_points
 
 reference = 'media/original.jpg'
 registering = 'media/rotated.jpg'
@@ -11,5 +11,4 @@ points = get_fixed_points(reference)
 
 
 # --------------------------------- Register --------------------------------- #
-register(reference, registering, fixed_points = points)
-
+register(reference, registering, fixed_points = points

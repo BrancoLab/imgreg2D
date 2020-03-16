@@ -1,6 +1,6 @@
-from arenaregistration.points import get_registering_points, get_fixed_points, clean_check_points
-from arenaregistration.affine import apply_affine, refine_registration, get_affine_matrix
-from arenaregistration.utils import load_image, save_warp_matrix, load_warp_matrix
+from imgreg2D.points import get_registering_points, get_fixed_points, clean_check_points
+from imgreg2D.affine import apply_affine, refine_registration, get_affine_matrix
+from imgreg2D.utils import load_image, save_warp_matrix, load_warp_matrix
 
 
 
