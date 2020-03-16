@@ -8,9 +8,9 @@ from imgreg2D.utils import load_image
 
 
 # ----------------------------------- Utils ---------------------------------- #
-def clean_check_points(points_layer=None, points=None, img_type='Fixed', verbose=True):
-    if points_layer is not None:
-        points = np.float32([list(p) for p in points_layer.data])
+def clean_check_points(points_layer_data=None, points=None, img_type='Fixed', verbose=True):
+    if points_layer_data is not None:
+        points = np.float32([list(p) for p in points_layer_data])
     elif points is not None: # exects a list of lists/typles with points 
         points = np.float32([p for p in points])
     else:
@@ -60,7 +60,7 @@ def get_fixed_points(reference):
             if n_points == N_POINTS:
                 close_viewer(reference_viewer)
 
-    return clean_check_points(points_layer)
+    return clean_check_points(points_layer.data)
 
 
 # ---------------------------- Registering Points ---------------------------- #
@@ -134,4 +134,4 @@ def get_registering_points(reference, registering, fixed_points):
         raise ValueError(f"{len(points_layer.data)} were clicked, but there were {len(fixed_points)} on the reference image.\n"+
                             "Please try again.")
     
-    return clean_check_points(points_layer, img_type='Registering')[::-1] # ? need to reverse the order for some reason
+    return clean_check_points(points_layer.data, img_type='Registering')[::-1] # ? need to reverse the order for some reason
