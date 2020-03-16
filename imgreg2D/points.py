@@ -1,6 +1,6 @@
 import napari
 import numpy as np
-
+import cv2
 
 from imgreg2D import N_POINTS, POINTS_SIZE, EDGE_WIDTH
 from imgreg2D.utils import load_image
@@ -70,10 +70,17 @@ def get_registering_points(reference, registering, fixed_points):
             "Press 'r' to toggle between seeing the reference or the registering image\n"+
             "Press 'q' to close the viewers.")
 
+    # Reshape registering image to reference image shape
+    cols, rows, chs = reference.shape
+    registering = cv2.resize(registering, (rows, cols))
+
     with napari.gui_qt():
         # add the registering image
         registering_viewer = napari.view_image(registering, name='registering', title='Registering points')
         registering_viewer.window._qt_window.showFullScreen() 
+        registering_viewer.cursor = 'pointing'
+        registering_viewer._cursor = 'pointing'
+
 
         # User input -> points
         points_layer = registering_viewer.add_points(size=POINTS_SIZE, edge_color='k',
@@ -97,7 +104,6 @@ def get_registering_points(reference, registering, fixed_points):
         # Add keybindings
         @napari.Viewer.bind_key('q', overwrite=True)
         def close_viewer(viewer):
-            # registering_viewer.window._qt_window.showNormal()
             registering_viewer.close()
 
         @napari.Viewer.bind_key('r', overwrite=True)

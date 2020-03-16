@@ -12,13 +12,3 @@ points = get_fixed_points(reference)
 
 # --------------------------------- Register --------------------------------- #
 register(reference, registering, fixed_points = points)
-
-
-# import napari
-
-# with napari.gui_qt():
-#     v1 = napari.Viewer()
-#     v1.close()
-
-# with napari.gui_qt():
-#     v2 = napari.Viewer()

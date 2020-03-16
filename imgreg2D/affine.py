@@ -38,11 +38,11 @@ KEYBINGS = """
 ##                                                        ##
 ##    SHEARS                                              ##
 ##   ------------------------------------------------     ##
-##      'd' -> positive x shear                           ##
-##      'd' -> negative x shear                           ##
+##      'z' -> positive x shear                           ##
+##      'x' -> negative x shear                           ##
 ##                                                        ##
-##      'd' -> positive y shear                           ##
-##      'd' -> negative y shear                           ##
+##      'c' -> positive y shear                           ##
+##      'v' -> negative y shear                           ##
 ##                                                        ##
 ############################################################
 """
@@ -90,6 +90,7 @@ def refine_registration(reference, registering, registered, warp_mtx):
     with napari.gui_qt():
         # Add img layers
         viewer = napari.view_image(reference, name='Reference', opacity=.5, title='Refine Affine')
+        viewer.window._qt_window.showFullScreen() 
         img_layer = viewer.add_image(registered, name='Registered', opacity=.5)
         viewer.layers[0].metadata['happy'] = False
         viewer.layers[0].metadata['warp_mtx'] = warp_mtx
@@ -99,17 +100,17 @@ def refine_registration(reference, registering, registered, warp_mtx):
         @viewer.bind_key('y', overwrite=True)
         def ishappy(viewer):
             viewer.layers[0].metadata['happy'] = True
-            viewer.window.close()
+            viewer.close()
 
         @viewer.bind_key('n', overwrite=True)
         def unhappy(viewer):
             viewer.layers[0].metadata['happy'] = False
-            viewer.window.close() 
+            viewer.close() 
 
         @viewer.bind_key('q', overwrite=True)
         def stop(viewer):
             viewer.layers[0].metadata['happy'] = 'stop'
-            viewer.window.close() 
+            viewer.close() 
 
         # ------------------------------ Refine keybings ----------------------------- #
         # Translations
