@@ -1,29 +1,29 @@
 from setuptools import setup, find_namespace_packages
 
+from os import path
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
+
 requirements = [
     "numpy",
     "opencv-python",
-    "nptdms",
     "configparser",
-    "pandas",
-    "tqdm",
-
+    "napari",
 ]
 
 setup(
-    name="FC_analysis",
+    name="imgreg2D",
     version="0.0.0.1",
     author_email="federicoclaudi@protonmail.com",
-    description="Code to analyse stuff",
+    description="easy 2D image registration in python",
     packages=find_namespace_packages(exclude=()),
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     include_package_data=True,
     install_requires=requirements,
-    entry_points={
-        "console_scripts": [
-            "dlc_on_hpc = analysis.dbase.tracking.track_hpc:main",
-        ]
-    },
-    url="https://github.com/BrancoLab/FC_analysis",
-    author="Federico Claudi",
+    url="https://github.com/BrancoLab/imgreg2D",
+    author="Federico Claudi, Philip Shamash",
     zip_safe=False,
 )
