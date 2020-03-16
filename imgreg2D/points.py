@@ -49,13 +49,8 @@ def get_fixed_points(reference):
         # Add keybindings
         @reference_viewer.bind_key('q', overwrite=True)
         def close_viewer(viewer):
-            # Save image to cache
-            # screenshot = viewer.screenshot(path=IMG_CACHE_PATH)
-
             # Close viewer
-            # viewer.window._qt_window.showNormal()
-            # viewer.window._qt_window.close()
-            viewer.window.close()
+            viewer.close()
 
 
         @points_layer.mouse_drag_callbacks.append
@@ -65,8 +60,6 @@ def get_fixed_points(reference):
             if n_points == N_POINTS:
                 close_viewer(reference_viewer)
 
-    close_viewer(reference_viewer)
-    del reference_viewer
     return clean_check_points(points_layer)
 
 
@@ -104,8 +97,8 @@ def get_registering_points(reference, registering, fixed_points):
         # Add keybindings
         @napari.Viewer.bind_key('q', overwrite=True)
         def close_viewer(viewer):
-            registering_viewer.window._qt_window.showNormal()
-            registering_viewer.window.close()
+            # registering_viewer.window._qt_window.showNormal()
+            registering_viewer.close()
 
         @napari.Viewer.bind_key('r', overwrite=True)
         def toggle_reference(viewer):
