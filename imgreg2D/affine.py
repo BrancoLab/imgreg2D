@@ -55,6 +55,9 @@ def get_affine_matrix(fixed_points, registering_points):
     registering_points = invert_xy_order(registering_points)
     # warp_mtx = cv2.getAffineTransform(fixed_points, registering_points)
     warp_mtx = cv2.estimateRigidTransform(fixed_points, registering_points, False)
+    if not isinstance(warp_mtx, np.ndarray):
+        a = 1
+        raise ValueError("Failed to compute warp matrix, please try again.")
     return warp_mtx
 
 def apply_affine(reference, registering, warp_mtx, verbose=True):

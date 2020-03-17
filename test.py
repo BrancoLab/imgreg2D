@@ -14,5 +14,6 @@ points = get_fixed_points(reference)
 register(reference, registering, fixed_points = points)
 
 # 3.4.1.15 in setup
+# TODO implement affine calculation without using opencv because I hate it. 
 # TODO change number of point requirement
 # TODO test
