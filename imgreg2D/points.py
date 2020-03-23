@@ -2,7 +2,7 @@ import napari
 import numpy as np
 import cv2
 
-from imgreg2D import N_POINTS, POINTS_SIZE, EDGE_WIDTH
+from imgreg2D import MIN_N_POINTS, POINTS_SIZE, EDGE_WIDTH
 from imgreg2D.utils import load_image
 
 
@@ -16,10 +16,9 @@ def clean_check_points(points_layer_data=None, points=None, img_type='Fixed', ve
     else:
         raise ValueError('Neither points_layer nor points was passed')
 
-    if len(points) < N_POINTS:
-        raise ValueError(f'Found {len(points)} {img_type} points but a minimum of {N_POINTS} is required.')
-    elif len(points) > N_POINTS:
-        raise ValueError(f'Found {len(points)} {img_type} points but a maximum of {N_POINTS} is required.')
+    if len(points) < MIN_N_POINTS:
+        raise ValueError(f'Found {len(points)} {img_type} points but a minimum of {MIN_N_POINTS} is required.')
+
     else:
         if verbose:
             print(f"{img_type} points: {points}")
@@ -32,7 +31,7 @@ def invert_xy_order(points):
 
 # ------------------------------- Fixed Points ------------------------------- #
 def get_fixed_points(reference):
-    print(f"\n\nDefine {N_POINTS} fixed points on reference image.\n"+
+    print(f"\n\nDefine at least {MIN_N_POINTS} fixed points on reference image.\n"+
             "Press 'q' to close viewer when all the points are defined")
 
     if isinstance(reference, str):
@@ -55,11 +54,10 @@ def get_fixed_points(reference):
 
         @points_layer.mouse_drag_callbacks.append
         def _print(layer, event):
-            point, n_points = layer.data[-1].astype(np.int32), len(layer.data)
-            print(f"    added point ({point}). Tot points: {n_points}")
-            if n_points == N_POINTS:
-                close_viewer(reference_viewer)
+            point, MIN_N_POINTS = layer.data[-1].astype(np.int32), len(layer.data)
+            print(f"    added point ({point}). Tot points: {MIN_N_POINTS}")
 
+    print(f"{len(points_layer.data)} points were defined.\n")
     return clean_check_points(points_layer.data)
 
 
@@ -123,7 +121,7 @@ def get_registering_points(reference, registering, fixed_points):
                 registering_viewer.cursor = 'pointing'
 
         @points_layer.mouse_drag_callbacks.append
-        def check_n_points(layer, event):
+        def check_MIN_N_POINTS(layer, event):
             if registering_viewer.layers[0].metadata['viewing'] == 'reference':
                 return
 

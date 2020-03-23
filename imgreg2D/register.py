@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from imgreg2D import BASE_DIR
 from imgreg2D.points import get_registering_points, get_fixed_points, clean_check_points
 from imgreg2D.affine import apply_affine, refine_registration, get_affine_matrix
 from imgreg2D.utils import load_image, save_warp_matrix, load_warp_matrix
@@ -6,8 +9,14 @@ from imgreg2D.utils import load_image, save_warp_matrix, load_warp_matrix
 
 
 def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=False,
-                save_fld='', save_name='warp_mtx'):
+                save_fld=None, save_name=None):
     # ------------------------------ Parse arguments ----------------------------- #
+    if save_fld is None:
+        save_fld = BASE_DIR
+    if save_name is None:
+        savename = f"warp_mtx_{datetime.now().strftime('%Y%m%d_%H%M_%S')}"
+
+
     if isinstance(reference, str): # images were passed as filepaths
         # Load reference and registering images from file
         reference = load_image(reference)

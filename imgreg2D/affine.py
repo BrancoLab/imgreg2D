@@ -2,8 +2,6 @@ import napari
 import cv2
 import numpy as np
 
-from imgreg2D import N_POINTS, POINTS_SIZE, EDGE_WIDTH
-from imgreg2D.utils import load_image
 from imgreg2D.points import invert_xy_order
 
 
@@ -75,9 +73,9 @@ def apply_affine(reference, registering, warp_mtx, verbose=True):
 def update(viewer, reference, registering, warp_mtx, idx, sign, fact):
     # Update mtx
     if sign == 'plus':
-        warp_mtx[idx] += fact # * np.abs(warp_mtx[idx])
-    else:
         warp_mtx[idx] -= fact # * np.abs(warp_mtx[idx])
+    else:
+        warp_mtx[idx] += fact # * np.abs(warp_mtx[idx])
 
     # Apply affine
     registered = apply_affine(reference, registering, warp_mtx, verbose=False)
@@ -121,7 +119,7 @@ def refine_registration(reference, registering, registered, warp_mtx):
 
         # ------------------------------ Refine keybings ----------------------------- #
         step = 0.05
-        
+
         # Translations
         @viewer.bind_key('a', overwrite=True)
         def a(viewer):
