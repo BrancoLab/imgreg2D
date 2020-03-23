@@ -14,7 +14,7 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
     if save_fld is None:
         save_fld = BASE_DIR
     if save_name is None:
-        savename = f"warp_mtx_{datetime.now().strftime('%Y%m%d_%H%M_%S')}"
+        save_name = f"warp_mtx_{datetime.now().strftime('%Y%m%d_%H%M_%S')}"
 
 
     if isinstance(reference, str): # images were passed as filepaths
@@ -27,6 +27,8 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
         if fixed_points is None:
             fixed_points = get_fixed_points(reference)
         else:
+            if not isinstance(fixed_points, list):
+                fixed_points = [list(p) for p in fixed_points]
             fixed_points = clean_check_points(points=fixed_points, verbose=False)
     else:
         # Load warp matrix from file if necessary

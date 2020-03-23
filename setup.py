@@ -8,7 +8,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 requirements = [
     "numpy",
-    "opencv-python",
+    "opencv-python==3.4.1.15",
     "configparser",
     "napari",
 ]
