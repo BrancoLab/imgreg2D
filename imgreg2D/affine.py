@@ -53,18 +53,21 @@ def get_affine_matrix(fixed_points, registering_points):
     print("\nGetting affine transform.")
     fixed_points = invert_xy_order(fixed_points)
     registering_points = invert_xy_order(registering_points)
-    # warp_mtx = cv2.getAffineTransform(fixed_points, registering_points)
-    warp_mtx = cv2.estimateRigidTransform(fixed_points, registering_points, False)
+
+    warp_mtx = cv2.estimateRigidTransform(fixed_points[:, :, np.newaxis], # need to make the pints 3D otherwise opencv treats them as imgs
+                                        registering_points[:, :, np.newaxis], 
+                                        True)
+
     if not isinstance(warp_mtx, np.ndarray):
-        a = 1
         raise ValueError("Failed to compute warp matrix, please try again.")
     return warp_mtx
 
 def apply_affine(reference, registering, warp_mtx, verbose=True):
     if verbose: print("\nApplying affine transform.")
     rows,cols,ch =  reference.shape
+
     registered = cv2.warpAffine(registering, warp_mtx, (cols, rows))
-    return registered
+    return registered[::-1, ::-1] # Need to reverse the image for it to match the original
 
 
 
@@ -118,6 +121,7 @@ def refine_registration(reference, registering, registered, warp_mtx):
 
         # ------------------------------ Refine keybings ----------------------------- #
         step = 0.05
+        
         # Translations
         @viewer.bind_key('a', overwrite=True)
         def a(viewer):
