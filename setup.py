@@ -11,11 +11,12 @@ requirements = [
     "opencv-python==3.4.1.15",
     "configparser",
     "napari",
+    "affine6p",
 ]
 
 setup(
     name="imgreg2D",
-    version="0.0.0.1",
+    version="0.0.0.2",
     author_email="federicoclaudi@protonmail.com",
     description="easy 2D image registration in python",
     packages=find_namespace_packages(exclude=()),

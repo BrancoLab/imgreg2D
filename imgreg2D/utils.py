@@ -24,8 +24,8 @@ def create_marked_ref_image(img, points):
     for n, point in enumerate(points):
         # flip the points until they match the orientation of the image
         point = point[::-1]
-        point[0] = img_w - point[0]
-        point[1] = img_h - point[1]
+        # point[0] = img_w - point[0]
+        # point[1] = img_h - point[1]
 
         # Add text and circle
         cv2.putText(

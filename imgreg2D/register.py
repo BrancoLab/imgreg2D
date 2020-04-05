@@ -58,7 +58,7 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
         registered = apply_affine(reference, registering, warp_mtx)
 
         # Visualise results
-        happy, warp_mtx = refine_registration(reference, registering, registered, warp_mtx)
+        happy, warp_mtx, warped_img = refine_registration(reference, registering, registered, warp_mtx)
 
         # Check if we need to try again
         if happy == 'stop':
@@ -71,6 +71,6 @@ def register(reference, registering, fixed_points=None, warp_mtx=None, save_mtx=
             print("\nRegistration completed! Saving the results.")
             save_warp_matrix(warp_mtx, save_fld, save_name)
 
-
+    return warped_img, warp_mtx
 
 

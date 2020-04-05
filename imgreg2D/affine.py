@@ -2,6 +2,8 @@ import napari
 import cv2
 import numpy as np
 
+import affine6p
+
 from imgreg2D.points import invert_xy_order
 
 
@@ -26,7 +28,7 @@ KEYBINDINGS = """
 ##      's' -> negative y translation                     ##
 ##      'd' -> positive x translation                     ##
 ##                                                        ##
-##    SCALINGS                                            ##
+##    SCALING                                            ##
 ##   ------------------------------------------------     ##
 ##      'r' -> positive x scaling                         ##
 ##      'f' -> negative x scaling                         ##
@@ -52,12 +54,8 @@ def get_affine_matrix(fixed_points, registering_points):
     fixed_points = invert_xy_order(fixed_points)
     registering_points = invert_xy_order(registering_points)
 
-    warp_mtx = cv2.estimateRigidTransform(fixed_points[:, :, np.newaxis], # need to make the pints 3D otherwise opencv treats them as imgs
-                                        registering_points[:, :, np.newaxis], 
-                                        True)
-
-    if not isinstance(warp_mtx, np.ndarray):
-        raise ValueError("Failed to compute warp matrix, please try again.")
+    trans = affine6p.estimate(fixed_points, registering_points)
+    warp_mtx = np.array(trans.get_matrix())[:2, :]
     return warp_mtx
 
 def apply_affine(reference, registering, warp_mtx, verbose=True):
@@ -185,4 +183,4 @@ def refine_registration(reference, registering, registered, warp_mtx):
             update(viewer, reference, registering, warp_mtx, 
                             warp_mtx_indices['y_shear'], 'minus', step)
 
-    return viewer.layers[0].metadata['happy'], warp_mtx
+    return viewer.layers[0].metadata['happy'], warp_mtx, viewer.layers[1].data
